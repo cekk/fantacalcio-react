@@ -132,7 +132,7 @@ div.thumbnail {
 	border-radius: 150px;
 	-webkit-border-radius: 150px;
 	-moz-border-radius: 150px;
-	background: url(/static/images/cekk.jpg) no-repeat;
+	background: url(/static/images/placeholder.png) no-repeat;
 	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
@@ -147,4 +147,17 @@ div.adminExtraction .jumbotron .label {
 
 .teamList .thumbnail .teamName {
     margin-left: 3em;
+}
+
+
+.roundAvatar {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+.roundAvatar img {
+    display: block;
+    max-width: 50px;
 }

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 '''Public section, including homepage and signup.'''
 from flask import (Blueprint, request, render_template, flash, url_for,
-                    redirect, session, make_response, jsonify)
+                    redirect, session, make_response, jsonify, current_app)
 from flask.ext.login import login_user, login_required, logout_user
-
 from fantacalcio.extensions import login_manager
 from fantacalcio.user.models import User
 from fantacalcio.user.views import user_can_access
@@ -14,7 +13,9 @@ from fantacalcio.utils import flash_errors
 from fantacalcio.database import db
 from  sqlalchemy.sql.expression import func
 import json
+import os
 from sqlalchemy import desc
+from werkzeug import secure_filename
 
 blueprint = Blueprint('public', __name__, static_folder="../static")
 auction_blueprint = Blueprint("auction", __name__, url_prefix='/auction',
@@ -51,9 +52,14 @@ def register():
     form = RegisterForm(request.form, csrf_enabled=False)
     if form.validate_on_submit():
         picture = request.files.get('picture')
-        import pdb;pdb.set_trace()
+        picture_name = ""
+        if picture:
+            avatar_path = current_app.config['AVATAR_UPLOAD_FOLDER']
+            app_path = current_app.config['APP_FOLDER']
+            picture_name = secure_filename(picture.filename)
+            picture.save(os.path.join(app_path, avatar_path, picture_name))
         new_user = User.create(username=form.username.data,
-                        picture=picture,
+                        picture=picture_name,
                         password=form.password.data,
                         active=True)
         flash("Thank you for registering. You can now log in.", 'success')
@@ -88,7 +94,7 @@ def extract():
         return {}
     response = make_response()
     data = player.to_json()
-    data['users'] = [x.username for x in User.query.order_by('username')]
+    data['users'] = [x.to_json() for x in User.query.order_by('username')]
     response.data = json.dumps(data)
     player.currently_selected = True
     db.session.add(player)
@@ -105,7 +111,7 @@ def selected():
         response.data= {}
     else:
         data = player.to_json()
-        data['users'] = [x.username for x in User.query.order_by('username')]
+        data['users'] = [x.to_json() for x in User.query.order_by('username')]
         response.data = json.dumps(data)
     return response
 

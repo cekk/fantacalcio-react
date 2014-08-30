@@ -5,6 +5,8 @@ from sqlalchemy import ForeignKey, Integer
 from sqlalchemy_imageattach.entity import Image, image_attachment
 from sqlalchemy.ext.declarative import declarative_base
 from flask.ext.login import UserMixin
+from flask import current_app
+import os
 from fantacalcio.settings import Config
 #from fantacalcio.players.models import Player
 from fantacalcio.extensions import bcrypt
@@ -66,13 +68,19 @@ class User(UserMixin, SurrogatePK, Model):
     def __repr__(self):
         return '<User({username!r})>'.format(username=self.username)
 
+    def avatar_url(self):
+        if not self.picture:
+            return ''
+        avatar_path = current_app.config['AVATAR_UPLOAD_FOLDER']
+        return os.path.join(avatar_path, self.picture)
+
     def to_json(self):
         return {'id': self.id,
                 'username': self.username,
+                'avatar': self.avatar_url(),
                 'first_name': self.first_name,
                 'last_name': self.last_name,
-                'auction_budget': self.auction_budget,
-                'players': self.players}
+                'auction_budget': self.auction_budget}
 
 #
 # class UserPicture(Model, Image):

@@ -5,10 +5,12 @@
     <div class="row teamList">
         {% for user in members %}
             <div class="col-xs-12 col-md-6">
-                <div class="thumbnail">
+                <div class="thumbnail" style="background-image:url({{user.avatar_url()}})">
                     <h2 class="teamName">{{user.username}}</h2>
                 </div>
-                <div class="userTeam" data-user="{{user.username}}"></div>
+                <div class="userTeam"
+                     data-user="{{user.username}}"
+                     data-user-avatar="{{user.avatar_url()}}"></div>
             </div>
             {% if loop.index is even %}
                 <!-- Add the extra clearfix for only the required viewport -->

@@ -2,7 +2,7 @@
 
 # C extensions
 *.so
-
+.DS_Store
 # Packages
 *.egg
 *.egg-info
@@ -45,3 +45,6 @@ docs/_build
 # Virtualenvs
 env
 env*
+
+fantacalcio/static/images/*
+migrations

@@ -192,15 +192,18 @@ var AdminAuctionBox = React.createClass({
         }
         if (this.state.data.users !== undefined) {
             users = this.state.data.users.map(function(result) {
+                var avatar_url = "url(" + result.avatar + ")";
+                var avatar_style = {"background-image": avatar_url};
                 return (
-                    <div key={result}
+                    <div key={result.id}
                        className="radioUser radio-inline">
                         <input type="radio"
                                name="team"
                                ref="team"
-                               value={result} id={result} />
-                        <div className={(this.state.error !== undefined && this.state.error.team === true) ? 'thumbnail hasError' : 'thumbnail'}>
-                            <label htmlFor={result}>{result}</label>
+                               value={result.username} id={result.username} />
+                        <div className={(this.state.error !== undefined && this.state.error.team === true) ? 'thumbnail hasError' : 'thumbnail'}
+                             style={avatar_style}>
+                            <label htmlFor={result.username}>{result.username}</label>
                         </div>
                     </div>
                     )
