@@ -55,19 +55,19 @@ var UserAuctionTeamBox = React.createClass({
             message = <div className="alert alert-success" role="alert">{this.state.infos.message}</div>
         }
         if (this.state.data.goalkeepers !== undefined && (this.state.data.goalkeepers.length !== 0)) {
-            goalkeepers = <TeamRoles loadUserTeam={this.loadUserTeam} data={this.state.data.goalkeepers} name="Portieri"/>
+            goalkeepers = <TeamRoles deleteUsers={this.props.deleteUsers} loadUserTeam={this.loadUserTeam} data={this.state.data.goalkeepers} name="Portieri"/>
         }
         if (this.state.data.defenders !== undefined && (this.state.data.defenders.length !== 0)) {
-            defenders = <TeamRoles loadUserTeam={this.loadUserTeam} data={this.state.data.defenders} name="Difensori"/>
+            defenders = <TeamRoles deleteUsers={this.props.deleteUsers} loadUserTeam={this.loadUserTeam} data={this.state.data.defenders} name="Difensori"/>
         }
         if (this.state.data.midfielders !== undefined && (this.state.data.midfielders.length !== 0)) {
-            midfielders = <TeamRoles loadUserTeam={this.loadUserTeam} data={this.state.data.midfielders} name="Centrocampisti"/>
+            midfielders = <TeamRoles deleteUsers={this.props.deleteUsers} loadUserTeam={this.loadUserTeam} data={this.state.data.midfielders} name="Centrocampisti"/>
         }
         if (this.state.data.strikers !== undefined && (this.state.data.strikers.length !== 0)) {
-            strikers = <TeamRoles loadUserTeam={this.loadUserTeam} data={this.state.data.strikers} name="Attaccanti"/>
+            strikers = <TeamRoles deleteUsers={this.props.deleteUsers} loadUserTeam={this.loadUserTeam} data={this.state.data.strikers} name="Attaccanti"/>
         }
         var budget = Math.round((this.state.data.auction_budget/500) * 100);
-        var n_players = Math.round((this.state.data.n_players/500) * 100);
+        var n_players = Math.round((this.state.data.n_players/25) * 100);
         var budget_style = {width: budget + "%"};
         var players_style = {width: n_players + "%"};
         return (
@@ -83,7 +83,8 @@ var UserAuctionTeamBox = React.createClass({
                               </div>
                               <div className="panel-body">
                                 <div className="progress">
-                                  <div className="progress-bar" role="progressbar" aria-valuenow={budget} aria-valuemin="0" aria-valuemax="100" style={budget_style}>
+                                  <div className={budget === 100 ? 'progress-bar progress-bar-success' : 'progress-bar'}
+                                       role="progressbar" aria-valuenow={budget} aria-valuemin="0" aria-valuemax="100" style={budget_style}>
                                     {budget}%
                                   </div>
                                 </div>
@@ -99,7 +100,8 @@ var UserAuctionTeamBox = React.createClass({
                               </div>
                               <div className="panel-body">
                                     <div className="progress">
-                                        <div className="progress-bar" role="progressbar" aria-valuenow={n_players} aria-valuemin="0" aria-valuemax="100" style={players_style}>
+                                        <div className={n_players === 100 ? 'progress-bar progress-bar-success' : 'progress-bar'}
+                                            role="progressbar" aria-valuenow={n_players} aria-valuemin="0" aria-valuemax="100" style={players_style}>
                                             {n_players}%
                                         </div>
                                     </div>
@@ -257,21 +259,37 @@ var PlayerInfos = React.createClass({
 
 var TeamRoles = React.createClass({
     render: function() {
-        var rows = this.props.data.map(function(result) {
-            return (
-                <tr key={result.id}>
-                    <td>
-                        <DeleteForm loadUserTeam={this.props.loadUserTeam} data={result}/>
-                    </td>
-                    <td>{result.name}</td>
-                    <td>{result.auction_price}</td>
-                </tr>
-                )
+        var rows;
+        if (this.props.deleteUsers) {
+            rows = this.props.data.map(function(result) {
+                return (
+                    <tr key={result.id}>
+                        <td>
+                            <DeleteForm loadUserTeam={this.props.loadUserTeam} data={result}/>
+                        </td>
+                        <td>{result.name} ({result.team})</td>
+                        <td>{result.auction_price}</td>
+                    </tr>
+                    )
             }, this);
+        }
+        else {
+            rows = this.props.data.map(function(result) {
+                return (
+                    <tr key={result.id}>
+                        <td></td>
+                        <td>{result.name} ({result.team})</td>
+                        <td>{result.auction_price}</td>
+                    </tr>
+                    )
+            }, this);
+        }
         return (
             <div className="panel panel-primary">
                 <div className="panel-heading">
-                    <h3 className="panel-title">{this.props.name}</h3>
+                    <h3 className="panel-title">
+                    {this.props.name}<span className="badge pull-right">{this.props.data.length}</span>
+                    </h3>
                 </div>
                 <table className="table table-striped">
                     <thead>
@@ -332,7 +350,7 @@ var DeleteForm = React.createClass({
 
 if (document.getElementById('user-content') !== null) {
     React.renderComponent(
-        <UserAuctionBox url="/auction" pollInterval={200000000000000} />,
+        <UserAuctionBox url="/auction" pollInterval={2000} />,
         document.getElementById('user-content')
     );
 }
@@ -345,14 +363,14 @@ else if (document.getElementById('content') !== null) {
 
 if (document.getElementById('user-team') !== null) {
     React.renderComponent(
-        <UserAuctionTeamBox url="/auction" currentUser={document.getElementById('user-team').dataset.currentUser} pollInterval={2000000000000000}  />,
+        <UserAuctionTeamBox url="/auction" currentUser={document.getElementById('user-team').dataset.currentUser} pollInterval={2000} deleteUsers={false} />,
         document.getElementById('user-team')
     );
 }
 
 $.each($('div.teamList div.userTeam'), function() {
     React.renderComponent(
-        <UserAuctionTeamBox url="/auction" currentUser={this.dataset.user} pollInterval={2000000000000000}  />,
+        <UserAuctionTeamBox url="/auction" currentUser={this.dataset.user} pollInterval={2000} deleteUsers={true}/>,
         this
     );
 });

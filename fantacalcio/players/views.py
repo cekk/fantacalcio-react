@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template, abort, request, flash, url_for, redirect
+from flask import Blueprint, render_template, abort, request, flash, url_for, redirect, current_app
 from flask.ext.login import login_required
 from fantacalcio.players.models import Player
 from fantacalcio.user.models import User
@@ -62,6 +62,10 @@ def admin_buy():
     if user and user.auction_budget < price:
         errors = True
         flash("La squadra %s non ha abbastanza crediti per acquistare %s" % (team, player.name), 'danger')
+    max_players = current_app.config['%s_LIMIT' % player.role]
+    if user.players.filter_by(role=player.role).count() == max_players:
+        errors = True
+        flash(u"La squadra %s ha già tutti i giocatori per questo ruolo." % team, 'danger')
     if not errors:
         user.players.append(player)
         user.auction_budget = user.auction_budget - price

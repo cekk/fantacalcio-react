@@ -14,6 +14,10 @@ class Config(object):
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
     USE_MANTRA = False
     STARTING_MONEY = 500
+    P_LIMIT = 3
+    D_LIMIT = 8
+    C_LIMIT = 8
+    A_LIMIT = 6
 
 
 class ProdConfig(Config):

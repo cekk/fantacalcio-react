@@ -139,6 +139,10 @@ def buy():
         errors['price'] = True
         errors['team'] = True
         errors['msg'] = "La squadra %s non ha abbastanza crediti per acquistare %s" % (team, player.name)
+    max_players = current_app.config['%s_LIMIT' % player.role]
+    if user.players.filter_by(role=player.role).count() == max_players:
+        errors['team'] = True
+        errors['msg'] = u"La squadra %s ha già tutti i giocatori per questo ruolo." % team
     if errors:
         return make_response(jsonify(errors), 400)
     user.players.append(player)

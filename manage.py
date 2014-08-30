@@ -51,7 +51,7 @@ def populatedb():
             db.session.commit()
             print "%s) Added %s to db" % (i, row[3])
 
-manager.add_command('server', Server())
+manager.add_command('server', Server(host="0.0.0.0"))
 manager.add_command('shell', Shell(make_context=_make_context))
 manager.add_command('db', MigrateCommand)
 
