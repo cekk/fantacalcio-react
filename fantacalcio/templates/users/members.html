@@ -1,0 +1,23 @@
+
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Gestione squadre</h1>
+    <div class="row teamList">
+        {% for user in members %}
+            <div class="col-xs-12 col-md-6">
+                <div class="thumbnail">
+                    <h2 class="teamName">{{user.username}}</h2>
+                </div>
+                <div class="userTeam" data-user="{{user.username}}"></div>
+            </div>
+            {% if loop.index is even %}
+                <!-- Add the extra clearfix for only the required viewport -->
+                <div class="clearfix visible"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <script src="static/js/auction.js" type="text/jsx"></script>
+    <script src="http://fb.me/react-0.8.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+{% endblock %}

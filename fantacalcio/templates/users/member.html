@@ -1,0 +1,12 @@
+
+{% extends "layout.html" %}
+{% block content %}
+    <div class="page-header">
+        <h1>Benvenuto {{ member.username }}</h1>
+    </div>
+    <div id="user-content"></div>
+    <div id="user-team" data-current-user="{{ member.username}}"></div>
+    <script src="static/js/auction.js" type="text/jsx"></script>
+    <script src="http://fb.me/react-0.8.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+{% endblock %}

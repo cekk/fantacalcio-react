@@ -1,0 +1,159 @@
+
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Giocatori liberi</h1>
+    <!-- Nav tabs -->
+    <ul id="playersTab" class="nav nav-pills" role="tablist">
+      <li class="active"><a href="#goalkeepers" role="tab" data-toggle="tab">Portieri</a></li>
+      <li><a href="#defenders" role="tab" data-toggle="tab">Difensori</a></li>
+      <li><a href="#midfielders" role="tab" data-toggle="tab">Centrocampisti</a></li>
+      <li><a href="#strikers" role="tab" data-toggle="tab">Attaccanti</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="goalkeepers">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="cartColumn"></th>
+                        <th>Giocatore</th>
+                        <th>Prezzo</th>
+                        <th>Squadra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players['goalkeepers'] %}
+                        <tr>
+                            <td>
+                                <p>{{ form(player, players['users']) }}</p>
+                            </td>
+                            <td>{{player.name}}</td>
+                            <td>{{player.original_price}}</td>
+                            <td>{{player.team}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="defenders">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="cartColumn"></th>
+                        <th>Giocatore</th>
+                        <th>Prezzo</th>
+                        <th>Squadra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players['defenders'] %}
+                        <tr>
+                            <td>
+                                <p>{{ form(player, players['users']) }}</p>
+                            </td>
+                            <td>{{player.name}}</td>
+                            <td>{{player.original_price}}</td>
+                            <td>{{player.team}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="midfielders">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="cartColumn"></th>
+                        <th>Giocatore</th>
+                        <th>Prezzo</th>
+                        <th>Squadra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players['midfielders'] %}
+                        <tr>
+                            <td>
+                                <p>{{ form(player, players['users']) }}</p>
+                            </td>
+                            <td>{{player.name}}</td>
+                            <td>{{player.original_price}}</td>
+                            <td>{{player.team}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="strikers">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="cartColumn"></th>
+                        <th>Giocatore</th>
+                        <th>Prezzo</th>
+                        <th>Squadra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players['strikers'] %}
+                        <tr>
+                            <td>
+                                <p>{{ form(player, players['users']) }}</p>
+                            </td>
+                            <td>{{player.name}}</td>
+                            <td>{{player.original_price}}</td>
+                            <td>{{player.team}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% macro form(player, users) -%}
+    <!-- Button trigger modal -->
+    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#buyModal{{player.id}}">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="buyModal{{player.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="{{player.id}}ModalLabel">Acquista {{player.name}}</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-inline"
+                  action="{{ url_for('player.admin_buy') }}"
+                  method="POST">
+                <input id="player"
+                       name="player"
+                       type="hidden"
+                       value="{{player.id}}" />
+                <div class="form-group">
+                    <select class="form-control" name="team">
+                        {% for user in users %}
+                            <option>{{user}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                      <input id="price"
+                             name="price"
+                             class="form-control"
+                             type="number"
+                             placeholder="Prezzo" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Acquista</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+{%- endmacro %}
