@@ -10,7 +10,6 @@ itsdangerous==0.24
 # Database
 Flask-SQLAlchemy==1.0
 SQLAlchemy==0.9.7
-SQLAlchemy-ImageAttach=0.8.2
 
 # Migrations
 Flask-Migrate==1.2.0
