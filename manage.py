@@ -38,8 +38,8 @@ def test():
 def populatedb():
     """ populate db """
     with open("/Users/cekk/Desktop/quotazioni.csv", 'rb') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
-        for i, row in enumerate(spamreader):
+        csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+        for i, row in enumerate(csvreader):
             if i == 0:
                 continue
             player = Player(name=row[3],
@@ -50,6 +50,27 @@ def populatedb():
             db.session.add(player)
             db.session.commit()
             print "%s) Added %s to db" % (i, row[3])
+
+@manager.command
+def reset_users():
+    """ reset users """
+    for user in User.query.all():
+        user.players = []
+        user.auction_budget = 500
+        db.session.add(user)
+        db.session.commit()
+        print "%s reset" % user.username
+
+@manager.command
+def reset_players():
+    """ reset users """
+    for i, player in enumerate(Player.query.all()):
+        player.auction_price = 0
+        player.extracted = False
+        player.currently_selected = False
+        db.session.add(player)
+        db.session.commit()
+        print "%s) Reset %s" % (i, player.name)
 
 manager.add_command('server', Server(host="0.0.0.0"))
 manager.add_command('shell', Shell(make_context=_make_context))

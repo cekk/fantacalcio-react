@@ -87,7 +87,7 @@ def auction():
 def extract():
     cleanSelection()
     session = db.session()
-    random_players = session.query(Player).filter_by(extracted=False).order_by(func.random())
+    random_players = session.query(Player).filter_by(extracted=False, auction_price=0).order_by(func.random())
     print "%s Players left to extract." % random_players.count()
     player = random_players.first()
     if not player:
@@ -95,8 +95,11 @@ def extract():
     response = make_response()
     data = player.to_json()
     data['users'] = [x.to_json() for x in User.query.order_by('username')]
+    data['statistics'] = {'players_left': random_players.count() - 1,
+                          'extracted_players': session.query(Player).filter_by(extracted=True).count() + 1}
     response.data = json.dumps(data)
     player.currently_selected = True
+    player.extracted = True
     db.session.add(player)
     db.session.commit()
     return response
@@ -112,6 +115,8 @@ def selected():
     else:
         data = player.to_json()
         data['users'] = [x.to_json() for x in User.query.order_by('username')]
+        data['statistics'] = {'players_left': session.query(Player).filter_by(extracted=False, auction_price=0).count(),
+                              'extracted_players': session.query(Player).filter_by(extracted=True).count()}
         response.data = json.dumps(data)
     return response
 

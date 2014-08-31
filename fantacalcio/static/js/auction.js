@@ -246,8 +246,16 @@ var AdminAuctionBox = React.createClass({
 
 var PlayerInfos = React.createClass({
     render: function() {
+        var statistics;
+        if (this.props.data.statistics !== undefined) {
+            statistics = <div className="pull-right">
+                            <p>Giocatori estratti: {this.props.data.statistics.extracted_players}</p>
+                            <p>Giocatori rimanenti: {this.props.data.statistics.players_left}</p>
+                        </div>
+        }
         return (
             <div className="jumbotron">
+              {statistics}
               <h1>{this.props.data.name}</h1>
               <span className="label label-default">{this.props.data.role}</span>
               <span className="label label-default">{this.props.data.team}</span>

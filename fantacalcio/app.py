@@ -27,7 +27,6 @@ def create_app(config_object=ProdConfig):
     register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)
-    # register_image_storage(app)
     return app
 
 
@@ -57,9 +56,4 @@ def register_errorhandlers(app):
         return render_template("{0}.html".format(error_code)), error_code
     for errcode in [401, 403, 404, 500]:
         app.errorhandler(errcode)(render_error)
-    return None
-
-def register_image_storage(app):
-    fs_store = HttpExposedFileSystemStore('userimages', 'images/')
-    app.wsgi_app = fs_store.wsgi_middleware(app.wsgi_app)
     return None

@@ -2,13 +2,11 @@
 import datetime as dt
 from sqlalchemy.schema import UniqueConstraint
 from sqlalchemy import ForeignKey, Integer
-from sqlalchemy_imageattach.entity import Image, image_attachment
 from sqlalchemy.ext.declarative import declarative_base
 from flask.ext.login import UserMixin
 from flask import current_app
 import os
 from fantacalcio.settings import Config
-#from fantacalcio.players.models import Player
 from fantacalcio.extensions import bcrypt
 from fantacalcio.database import (
     Column,
@@ -81,11 +79,3 @@ class User(UserMixin, SurrogatePK, Model):
                 'first_name': self.first_name,
                 'last_name': self.last_name,
                 'auction_budget': self.auction_budget}
-
-#
-# class UserPicture(Model, Image):
-#     """User picture model."""
-#
-#     user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-#     user = relationship('User', backref='user_picture')
-#     __tablename__ = 'user_picture'
