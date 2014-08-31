@@ -18,13 +18,14 @@ class Config(object):
     D_LIMIT = 8
     C_LIMIT = 8
     A_LIMIT = 6
-
+    APP_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    AVATAR_UPLOAD_FOLDER = 'static/images'
 
 class ProdConfig(Config):
     """Production configuration."""
     ENV = 'prod'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/fantacalcio'
+    SQLALCHEMY_DATABASE_URI = os_env['DATABASE_URL']
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
 
 
@@ -36,8 +37,6 @@ class DevConfig(Config):
     # Put the db file in project root
     DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
     SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/fantacalcio'
-    APP_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    AVATAR_UPLOAD_FOLDER = 'static/images'
     DEBUG_TB_ENABLED = True
     ASSETS_DEBUG = True  # Don't bundle/minify static assets
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
