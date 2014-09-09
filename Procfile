@@ -1,1 +1,2 @@
 web: gunicorn fantacalcio.app:create_app\(\) -b 0.0.0.0:$PORT -w 3
+runserver: python manage.py runserver
