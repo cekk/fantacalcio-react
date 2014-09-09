@@ -3,7 +3,6 @@
 from flask import Flask, render_template
 
 from fantacalcio.settings import ProdConfig
-from sqlalchemy_imageattach.stores.fs import HttpExposedFileSystemStore
 from fantacalcio.assets import assets
 from fantacalcio.extensions import (
     bcrypt,
