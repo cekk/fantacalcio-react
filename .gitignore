@@ -43,8 +43,8 @@ docs/_build
 .webassets-cache
 
 # Virtualenvs
-env
-env*
+#env
+#env*
 
 fantacalcio/static/images/*
-migrations
+#migrations
