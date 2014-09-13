@@ -7,6 +7,7 @@ from flask.views import View
 from fantacalcio.extensions import login_manager
 from fantacalcio.utils import flash_errors
 from fantacalcio.database import db
+from fantacalcio.user.views import user_can_access
 
 blueprint = Blueprint('admin', __name__, static_folder="../static")
 

@@ -66,7 +66,7 @@ var UserAuctionTeamBox = React.createClass({
         if (this.state.data.strikers !== undefined && (this.state.data.strikers.length !== 0)) {
             strikers = <TeamRoles deleteUsers={this.props.deleteUsers} loadUserTeam={this.loadUserTeam} data={this.state.data.strikers} name="Attaccanti"/>
         }
-        var budget = Math.round((this.state.data.auction_budget/500) * 100);
+        var budget = Math.round((this.state.data.auction_budget/350) * 100);
         var n_players = Math.round((this.state.data.n_players/25) * 100);
         var budget_style = {width: budget + "%"};
         var players_style = {width: n_players + "%"};
@@ -78,7 +78,7 @@ var UserAuctionTeamBox = React.createClass({
                             <div className="panel">
                               <div className="panel-heading">
                                 <h3 className="panel-title">
-                                    <i className="fa fa-euro"></i> Budget attuale: {this.state.data.auction_budget}/500
+                                    <i className="fa fa-euro"></i> Budget attuale: {this.state.data.auction_budget}/350
                                 </h3>
                               </div>
                               <div className="panel-body">

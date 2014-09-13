@@ -1,0 +1,17 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-narrow">
+  <h1>MAnage</h1>
+    <br/>
+    <form id="manageForm" class="form form-manage" method="POST" action="" role="form"
+          enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{form.file.label}}
+                {{form.file(placeholder="File", class_="form-control")}}
+            </div>
+            <p><input class="btn btn-default btn-submit" type="submit" value="Save"></p>
+    </form>
+</div>
+{% endblock %}

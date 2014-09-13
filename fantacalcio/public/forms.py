@@ -1,8 +1,10 @@
 from flask_wtf import Form
 from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired
-
+from werkzeug import secure_filename
 from fantacalcio.user.models import User
+from flask_wtf.file import FileField
+
 
 class LoginForm(Form):
     username = TextField('Username', validators=[DataRequired()])
@@ -30,3 +32,8 @@ class LoginForm(Form):
             self.username.errors.append('User not activated')
             return False
         return True
+
+
+
+class PlayersForm(Form):
+    file = FileField('Players csv')

@@ -23,15 +23,14 @@ class Player(SurrogatePK, Model):
     name = Column(db.String(80), unique=True, nullable=False)
     team = Column(db.String(80), nullable=False)
     role = Column(db.String(5), nullable=False)
-    mantra_role = Column(db.String(20), nullable=False)
     original_price = Column(db.Integer, nullable=True)
     auction_price = Column(db.Integer, default=0)
     extracted = Column(db.Boolean(), default=False)
     currently_selected = Column(db.Boolean(), default=False)
     fantacalcio_team = db.Column(db.String(80), db.ForeignKey('users.username'))
 
-    def __init__(self, name, team, role, mantra_role, **kwargs):
-        db.Model.__init__(self, name=name, team=team, role=role, mantra_role=mantra_role, **kwargs)
+    def __init__(self, name, team, role, **kwargs):
+        db.Model.__init__(self, name=name, team=team, role=role, **kwargs)
 
     def __repr__(self):
         return '<Player({name!r})>'.format(name=self.name)

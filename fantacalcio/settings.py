@@ -13,7 +13,7 @@ class Config(object):
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
     USE_MANTRA = False
-    STARTING_MONEY = 500
+    STARTING_MONEY = 350
     P_LIMIT = 3
     D_LIMIT = 8
     C_LIMIT = 8
@@ -25,7 +25,7 @@ class ProdConfig(Config):
     """Production configuration."""
     ENV = 'prod'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os_env['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/fantacalcio'
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
 
 

@@ -7,6 +7,7 @@ from fantacalcio.extensions import login_manager
 from fantacalcio.user.models import User
 from fantacalcio.user.views import user_can_access
 from fantacalcio.public.forms import LoginForm
+from fantacalcio.public.forms import PlayersForm
 from fantacalcio.user.forms import RegisterForm
 from fantacalcio.players.models import Player
 from fantacalcio.utils import flash_errors
@@ -14,6 +15,7 @@ from fantacalcio.database import db
 from  sqlalchemy.sql.expression import func
 import json
 import os
+import csv
 from sqlalchemy import desc
 from werkzeug import secure_filename
 
@@ -72,6 +74,30 @@ def register():
 def about():
     form = LoginForm(request.form)
     return render_template("public/about.html", form=form)
+
+@blueprint.route('/manage/', methods=["GET", "POST"])
+@login_required
+@user_can_access
+def manage():
+    form = PlayersForm()
+    if form.validate_on_submit():
+        csvfile = request.files.get('file')
+        if csvfile:
+            csvreader = csv.reader(csvfile.stream, delimiter=',', quotechar='"')
+            for i, row in enumerate(csvreader):
+                if i == 0:
+                    continue
+                player = Player(name=row[1],
+                                team=row[2],
+                                role=row[0])
+                db.session.add(player)
+                db.session.commit()
+                print "%s) Added %s to db" % (i, row[1])
+            flash("Giocatori importati correttamente", 'success')
+    else:
+        filename = None
+    return render_template('public/manage.html', form=form)
+
 
 #ASTA
 
