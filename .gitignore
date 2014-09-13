@@ -47,4 +47,4 @@ env
 env*
 
 fantacalcio/static/images/*
-migrations/*
+migrations
