@@ -1,0 +1,42 @@
+
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Lista squadre</h1>
+    <div class="row">
+        {% for user in members %}
+            <h2 class="teamName">{{user.username}} ({{user.auction_budget}})</h2>
+            <strong>Portieri</strong>
+            <ul>
+                {% for player in user.players.filter_by(role="P") %}
+                    <li>
+                        {{player.name}} ({{player.team}}) {{player.auction_price}}
+                    </li>
+                {% endfor %}
+            </ul>
+            <strong>Difensori</strong>
+            <ul>
+                {% for player in user.players.filter_by(role="D") %}
+                    <li>
+                        {{player.name}} ({{player.team}}) {{player.auction_price}}
+                    </li>
+                {% endfor %}
+            </ul>
+            <strong>Centrocampisti</strong>
+            <ul>
+                {% for player in user.players.filter_by(role="C") %}
+                    <li>
+                        {{player.name}} ({{player.team}}) {{player.auction_price}}
+                    </li>
+                {% endfor %}
+            </ul>
+            <strong>Attaccanti</strong>
+            <ul>
+                {% for player in user.players.filter_by(role="A") %}
+                    <li>
+                        {{player.name}} ({{player.team}}) {{player.auction_price}}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

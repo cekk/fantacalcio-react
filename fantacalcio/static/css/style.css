@@ -140,7 +140,7 @@ div.thumbnail {
     margin-right: 1em;
 }
 
-div.adminExtraction .jumbotron .label {
+.adminExtraction .jumbotron .label {
     margin-right: 1em;
     font-size: 100%;
 }
@@ -160,4 +160,12 @@ div.adminExtraction .jumbotron .label {
 .roundAvatar img {
     display: block;
     max-width: 50px;
+}
+
+#user-content .jumbotron {
+    padding: 20px;
+}
+
+#user-content .jumbotron .label {
+    margin-right: 0.5em;
 }

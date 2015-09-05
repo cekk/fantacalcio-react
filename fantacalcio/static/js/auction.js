@@ -23,7 +23,7 @@ var UserAuctionBox = React.createClass({
     },
     render: function() {
         return (
-            <PlayerInfos data={this.state.data}/>
+            <PlayerInfos data={this.state.data} showStatistics={false} />
             );
     }
 });
@@ -247,19 +247,41 @@ var AdminAuctionBox = React.createClass({
 var PlayerInfos = React.createClass({
     render: function() {
         var statistics;
-        if (this.props.data.statistics !== undefined) {
+        // console.log(this.props);
+        if (this.props.data.statistics !== undefined && this.props.showStatistics === true) {
             statistics = <div className="pull-right">
                             <p>Giocatori estratti: {this.props.data.statistics.extracted_players}</p>
                             <p>Giocatori rimanenti: {this.props.data.statistics.players_left}</p>
                         </div>
         }
+        var team_url = this.props.data.team !== undefined ? "static/images/" + this.props.data.team + ".png" : "";
+        var role_class = "";
+        if (this.props.data.role === 'P') {
+            role_class = "label label-warning";
+        }
+        else if (this.props.data.role === 'D') {
+            role_class = "label label-success";
+        }
+        else if (this.props.data.role === 'C') {
+            role_class = "label label-primary";
+        }
+        else if (this.props.data.role === 'A') {
+            role_class = "label label-danger";
+        }
         return (
             <div className="jumbotron">
               {statistics}
-              <h1>{this.props.data.name}</h1>
-              <span className="label label-default">{this.props.data.role}</span>
-              <span className="label label-default">{this.props.data.team}</span>
-              <span className="label label-default">{this.props.data.original_price}€</span>
+                <div className="row">
+                    <div className="col-xs-8 col-md-10">
+                        <h1>{this.props.data.name}</h1>
+                        <span className={role_class}>{this.props.data.role}</span>
+                        <span className="label label-default">{this.props.data.team}</span>
+                        <span className="label label-default">{this.props.data.original_price}€</span>
+                    </div>
+                    <div className="col-xs-4 col-md-2">
+                        <img className="img-responsive center-block" src={team_url} />
+                    </div>
+                </div>
             </div>
         );
     }

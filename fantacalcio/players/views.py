@@ -73,5 +73,5 @@ def admin_buy():
         db.session.add(user)
         db.session.add(player)
         db.session.commit()
-        flash("%s acquistato" % player.name, 'success')
+        flash("%s acquistato da %s" % (player.name, team), 'success')
     return redirect(url_for('player.players'))

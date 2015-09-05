@@ -40,7 +40,6 @@ class Player(SurrogatePK, Model):
                 'name': self.name,
                 'team': self.team,
                 'role': self.role,
-                'mantra_role': self.mantra_role,
                 'original_price': self.original_price,
                 'auction_price': self.auction_price,
                 'extracted': self.extracted,

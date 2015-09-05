@@ -89,7 +89,8 @@ def manage():
                     continue
                 player = Player(name=row[1],
                                 team=row[2],
-                                role=row[0])
+                                role=row[0],
+                                original_price=int(round(float(row[3].replace(',', '.')))),)
                 db.session.add(player)
                 db.session.commit()
                 print "%s) Added %s to db" % (i, row[1])
@@ -171,7 +172,7 @@ def buy():
         errors['team'] = True
         errors['msg'] = "La squadra %s non ha abbastanza crediti per acquistare %s" % (team, player.name)
     max_players = current_app.config['%s_LIMIT' % player.role]
-    if user.players.filter_by(role=player.role).count() == max_players:
+    if user and user.players.filter_by(role=player.role).count() == max_players:
         errors['team'] = True
         errors['msg'] = u"La squadra %s ha già tutti i giocatori per questo ruolo." % team
     if errors:

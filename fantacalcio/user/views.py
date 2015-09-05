@@ -41,6 +41,13 @@ def user(user):
         abort(404)
 
 
+@blueprint.route("/list")
+@login_required
+@user_can_access
+def list_users():
+    users = User.query.all()
+    return render_template("users/list.html", members=users)
+
 @blueprint.route("/auction/<user>")
 @login_required
 @user_can_access
